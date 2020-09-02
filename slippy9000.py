@@ -5,6 +5,7 @@ import webbrowser
 import os
 
 def monthAsNum(month_name):
+    '''Converts text abbr. for month to a string representation of an int'''
     switch = {  "Jan" : "01",
                 "Feb" : "02",
                 "Mar" : "03",
@@ -19,12 +20,18 @@ def monthAsNum(month_name):
                 "Dec" : "12"    }
     return switch.get(month_name, "month_error")
 
-def main():
+def process_secrets():
+    '''
+    secrets.txt should be written in plaintext and saved in output folder
+    Returns the username and password written there
+    '''
     with open("secrets.txt","r") as f:
         secrets = f.read().split("\n")
-    username = secrets[0]
-    password = secrets[1]
-
+    return secrets[0], secrets[1]
+    
+def main():
+    username, password = process_secrets()
+    
     imap = imaplib.IMAP4_SSL("imap.gmail.com")
 
     imap.login(username, password)
